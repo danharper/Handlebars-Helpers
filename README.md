@@ -41,3 +41,8 @@ A small collection of useful helpers for [Handlebars.js](https://github.com/wyca
 
 ### Unless x <= y
 `{{#unless_lteq x compare=y}} ... {{/unless_lteq}}`
+
+## nl2br
+Convert new lines (`\r\n`, `\n\r`, `\r`, `\n`) to line breaks
+
+`{{nl2br description}}`

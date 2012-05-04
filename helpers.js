@@ -101,3 +101,12 @@ Handlebars.registerHelper('unless_lteq', function(context, options) {
 		return options.unless(context);
 	return options.fn(context);
 });
+
+/**
+ * Convert new line (\n\r) to <br>
+ * from http://phpjs.org/functions/nl2br:480
+ */
+Handlebars.registerHelper('nl2br', function(text) {
+	var nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
+	return new Handlebars.SafeString(nl2br);
+});
