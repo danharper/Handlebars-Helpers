@@ -4,8 +4,8 @@
  */
 Handlebars.registerHelper('if_eq', function(context, options) {
 	if (context == options.hash.compare)
-		return options.fn(context);
-	return options.inverse(context);
+		return options.fn(this);
+	return options.inverse(this);
 });
 
 /**
@@ -14,8 +14,8 @@ Handlebars.registerHelper('if_eq', function(context, options) {
  */
 Handlebars.registerHelper('unless_eq', function(context, options) {
 	if (context == options.hash.compare)
-		return options.unless(context);
-	return options.fn(context);
+		return options.unless(this);
+	return options.fn(this);
 });
 
 
@@ -25,8 +25,8 @@ Handlebars.registerHelper('unless_eq', function(context, options) {
  */
 Handlebars.registerHelper('if_gt', function(context, options) {
 	if (context > options.hash.compare)
-		return options.fn(context);
-	return options.inverse(context);
+		return options.fn(this);
+	return options.inverse(this);
 });
 
 /**
@@ -35,8 +35,8 @@ Handlebars.registerHelper('if_gt', function(context, options) {
  */
 Handlebars.registerHelper('unless_gt', function(context, options) {
 	if (context > options.hash.compare)
-		return options.unless(context);
-	return options.fn(context);
+		return options.unless(this);
+	return options.fn(this);
 });
 
 
@@ -46,8 +46,8 @@ Handlebars.registerHelper('unless_gt', function(context, options) {
  */
 Handlebars.registerHelper('if_lt', function(context, options) {
 	if (context < options.hash.compare)
-		return options.fn(context);
-	return options.inverse(context);
+		return options.fn(this);
+	return options.inverse(this);
 });
 
 /**
@@ -56,8 +56,8 @@ Handlebars.registerHelper('if_lt', function(context, options) {
  */
 Handlebars.registerHelper('unless_lt', function(context, options) {
 	if (context < options.hash.compare)
-		return options.unless(context);
-	return options.fn(context);
+		return options.unless(this);
+	return options.fn(this);
 });
 
 
@@ -67,8 +67,8 @@ Handlebars.registerHelper('unless_lt', function(context, options) {
  */
 Handlebars.registerHelper('if_gteq', function(context, options) {
 	if (context >= options.hash.compare)
-		return options.fn(context);
-	return options.inverse(context);
+		return options.fn(this);
+	return options.inverse(this);
 });
 
 /**
@@ -77,8 +77,8 @@ Handlebars.registerHelper('if_gteq', function(context, options) {
  */
 Handlebars.registerHelper('unless_gteq', function(context, options) {
 	if (context >= options.hash.compare)
-		return options.unless(context);
-	return options.fn(context);
+		return options.unless(this);
+	return options.fn(this);
 });
 
 
@@ -88,8 +88,8 @@ Handlebars.registerHelper('unless_gteq', function(context, options) {
  */
 Handlebars.registerHelper('if_lteq', function(context, options) {
 	if (context <= options.hash.compare)
-		return options.fn(context);
-	return options.inverse(context);
+		return options.fn(this);
+	return options.inverse(this);
 });
 
 /**
@@ -98,8 +98,8 @@ Handlebars.registerHelper('if_lteq', function(context, options) {
  */
 Handlebars.registerHelper('unless_lteq', function(context, options) {
 	if (context <= options.hash.compare)
-		return options.unless(context);
-	return options.fn(context);
+		return options.unless(this);
+	return options.fn(this);
 });
 
 /**
