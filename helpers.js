@@ -118,3 +118,22 @@ Handlebars.registerHelper('nl2br', function(text) {
 	var nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');
 	return new Handlebars.SafeString(nl2br);
 });
+
+/**
+ * Convert new line (\n\r) to <br>, escaping HTML characters.
+ */
+
+Handlebars.registerHelper('break_lines', function (text) {
+	var lines = text.split(/\r\n|\r|\n/),
+		result = '', first = true, i;
+
+	for (i = 0; i < lines.length; ++i) {
+		if (!first) {
+			result += '<br>';
+		}
+		result += Handlebars.Utils.escapeExpression(lines[i]);
+		first = false;
+	}
+
+	return new Handlebars.SafeString(result);
+});
