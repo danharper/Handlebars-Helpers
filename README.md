@@ -48,3 +48,8 @@ Released under the [WTFPL](http://sam.zoy.org/wtfpl/). Do whatever with it; if y
 Convert new lines (`\r\n`, `\n\r`, `\r`, `\n`) to line breaks
 
 `{{nl2br description}}`
+
+## break_lines
+Convert new lines (`\r\n`, `\n\r`, `\r`, `\n`) to line breaks, escaping HTML characters as per standard Handlebars.
+
+`{{break_lines description}}`
