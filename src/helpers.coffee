@@ -3,14 +3,14 @@
  * eq this that
 ###
 Handlebars.registerHelper 'eq', (value, compare, options) ->
-	if value == compare then options.fn(@) else options.inverse(@)
+	if `value == compare` then options.fn(@) else options.inverse(@)
 
 ###
  * Not Equal
  * not_eq this that
 ###
 Handlebars.registerHelper 'not_eq', (value, compare, options) ->
-	if value != compare then options.fn(@) else options.inverse(@)
+	if `value != compare` then options.fn(@) else options.inverse(@)
 
 ###
  * Is (Strict Equal)
