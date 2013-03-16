@@ -32,6 +32,18 @@ describe('Is', function () {
 		});
 	});
 
+	describe('with three arguments', function () {
+		describe('with not', function () {
+			it('passes when the main arguments do not match', function(){
+				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
+			});
+
+			it('fails when the main arguments match', function(){
+				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('');
+			});
+		});
+	});
+
 	// #is foo 				foo == true
 	// #is foo bar 			foo == bar
 	// #is foo == bar 		foo == bar

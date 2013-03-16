@@ -8,22 +8,38 @@
     }
 }(this, function (Handlebars) {
 
-    Handlebars.registerHelper('is', function(text, second, options) {
-        if (typeof options === 'undefined') {
-            options = second;
-            second = undefined;
+    Handlebars.registerHelper('is', function() {
+        var args = arguments
+        ,   left = args[0]
+        ,   operator = args[1]
+        ,   right = args[2]
+        ,   options = args[3]
+        ;
+
+        if (args.length == 2) {
+            options = args[1];
+            if (left) return options.fn(this);
+            return options.inverse(this);
         }
 
-        if (typeof second !== 'undefined') {
-            if (text == second) {
-                return options.fn(this);
-            }
+        if (args.length == 3) {
+            right = args[1];
+            options = args[2];
+            if (left == right) return options.fn(this);
+            return options.inverse(this);
         }
-        else if (text) {
+
+        var expressions = {
+            'not': function(left, right) {
+                return left != right;
+            }
+        };
+
+        if (expressions[operator](left, right)) {
             return options.fn(this);
         }
-
         return options.inverse(this);
+
     });
 
 }));
