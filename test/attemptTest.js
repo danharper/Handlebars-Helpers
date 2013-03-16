@@ -12,12 +12,12 @@ var c = function (template, data) {
 describe('Is', function () {
 	describe('with single argument', function () {
 		it('passes a single truthy value', function(){
-			c('{{#is cat}}Yep{{/is}}', {cat:true}).should.equal('Yep');
-			c('{{#is cat}}Yep{{/is}}', {cat:'x'}).should.equal('Yep');
+			c('{{#is foo}}Y{{/is}}', {foo:true}).should.equal('Y');
+			c('{{#is foo}}Y{{/is}}', {foo:'x'}).should.equal('Y');
 		});
 		it('fails a single falsey value', function(){
-			c('{{#is cat}}Yep{{/is}}', {cat:false}).should.equal('');
-			c('{{#is cat}}Yep{{/is}}', {cat:''}).should.equal('');
+			c('{{#is foo}}Y{{/is}}', {foo:false}).should.equal('');
+			c('{{#is foo}}Y{{/is}}', {foo:''}).should.equal('');
 		});
 	});
 
