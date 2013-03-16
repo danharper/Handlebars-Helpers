@@ -92,7 +92,7 @@ describe('Is', function () {
 			});
 		});
 
-		describe('the ===', function () {
+		describe('the === operator', function () {
 			it('passes when both arguments are the same', function(){
 				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('Y');
 			});
@@ -103,7 +103,7 @@ describe('Is', function () {
 			});
 		});
 
-		describe('the !==', function () {
+		describe('the !== operator', function () {
 			it('passes when both arguments are not the same', function(){
 				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('Y');
 				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
@@ -111,6 +111,31 @@ describe('Is', function () {
 
 			it('fails when both arguments are the same', function(){
 				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('');
+			});
+		});
+
+		describe('the in operator', function () {
+			describe('with an array', function () {
+				it('passes when left arg is in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:['a','foo','b']})
+						.should.equal('Y');
+				});
+
+				it('fails when left arg is not in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:['a','b']})
+						.should.equal('');
+				});
+			});
+			describe('with a comma separated list', function () {
+				it('passes when left arg is in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:'a,b,foo,c'})
+						.should.equal('Y');
+				});
+
+				it('fails when left arg is not in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:'a,b,c'})
+						.should.equal('');
+				});
 			});
 		});
 	});

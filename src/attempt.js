@@ -8,6 +8,10 @@
     }
 }(this, function (Handlebars) {
 
+    var isArray = function(value) {
+        return Object.prototype.toString.call(value) === '[object Array]';
+    }
+
     Handlebars.registerHelper('is', function() {
         var args = arguments
         ,   left = args[0]
@@ -50,6 +54,12 @@
             },
             '!==': function(left, right) {
                 return left !== right;
+            },
+            'in': function(left, right) {
+                if ( ! isArray(right)) {
+                    right = right.split(',');
+                }
+                return right.indexOf(left) !== -1;
             }
         };
 
@@ -61,7 +71,6 @@
             return options.fn(this);
         }
         return options.inverse(this);
-
     });
 
 }));
