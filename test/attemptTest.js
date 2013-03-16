@@ -33,13 +33,28 @@ describe('Is', function () {
 	});
 
 	describe('with three arguments', function () {
-		describe('with not', function () {
+		it('throws an error when an operator does not exist', function () {
+			(function () { c('{{#is foo "/" bar}}Y{{/is}}', {foo:'x', bar:'y'}) })
+				.should.throw('Unknown operator "/"');
+		});
+
+		describe('the not operator', function () {
 			it('passes when the main arguments do not match', function(){
 				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
 			});
 
 			it('fails when the main arguments match', function(){
 				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('');
+			});
+		});
+
+		describe('the > operator', function () {
+			it('passes when left is greater than right', function(){
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:5, bar:2}).should.equal('Y');
+			});
+
+			it('fails when left is not greater than right', function(){
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:5, bar:7}).should.equal('');
 			});
 		});
 	});

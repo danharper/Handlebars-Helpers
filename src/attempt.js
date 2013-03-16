@@ -32,8 +32,15 @@
         var expressions = {
             'not': function(left, right) {
                 return left != right;
+            },
+            '>': function(left, right) {
+                return left > right;
             }
         };
+
+        if ( ! expressions.hasOwnProperty(operator)) {
+            throw new Error('Unknown operator "'+operator+'"');
+        }
 
         if (expressions[operator](left, right)) {
             return options.fn(this);
