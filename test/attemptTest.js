@@ -142,10 +142,7 @@ describe('#is', function () {
 });
 
 describe('#nl2br', function () {
-	var template = '{{nl2br this}}';
-
 	it('Converts new lines to <br> tags', function () {
-		var text = 'Hey\r\nThere!';
-		c(template, text).should.equal('Hey<br>\r\nThere!');
+		c('{{nl2br this}}', 'Hey\r\nThere!').should.equal('Hey<br>\r\nThere!');
 	});
 });
