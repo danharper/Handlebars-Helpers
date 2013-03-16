@@ -8,10 +8,21 @@
     }
 }(this, function (Handlebars) {
 
-    Handlebars.registerHelper('is', function(text, options) {
-        if (text) {
+    Handlebars.registerHelper('is', function(text, second, options) {
+        if (typeof options === 'undefined') {
+            options = second;
+            second = undefined;
+        }
+
+        if (typeof second !== 'undefined') {
+            if (text == second) {
+                return options.fn(this);
+            }
+        }
+        else if (text) {
             return options.fn(this);
         }
+
         return options.inverse(this);
     });
 

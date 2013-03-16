@@ -21,6 +21,17 @@ describe('Is', function () {
 		});
 	});
 
+	describe('with two arguments', function () {
+		it('passes when both arguments match loosely', function(){
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('Y');
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('Y');
+		});
+
+		it('fails when both arguments do not match', function(){
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('');
+		});
+	});
+
 	// #is foo 				foo == true
 	// #is foo bar 			foo == bar
 	// #is foo == bar 		foo == bar
