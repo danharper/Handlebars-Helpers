@@ -9,7 +9,7 @@ var c = function (template, data) {
 	return h.compile(template)(data);
 };
 
-describe('Is', function () {
+describe('#is', function () {
 	describe('with single argument', function () {
 		it('passes a single truthy value', function(){
 			c('{{#is foo}}Y{{/is}}', {foo:true}).should.equal('Y');
@@ -139,17 +139,13 @@ describe('Is', function () {
 			});
 		});
 	});
+});
 
-	// #is foo 				foo == true
-	// #is foo bar 			foo == bar
-	// #is foo == bar 		foo == bar
-	// #is foo === bar 		foo === bar
-	// #is foo != bar 		foo != bar
-	// #is foo !== bar 		foo !== bar
-	// #is foo not bar 		foo != bar
+describe('#nl2br', function () {
+	var template = '{{nl2br this}}';
 
-	// #is foo > bar 		foo > bar
-	// #is foo >= bar
-	// #is foo < bar
-	// #is foo <= bar
+	it('Converts new lines to <br> tags', function () {
+		var text = 'Hey\r\nThere!';
+		c(template, text).should.equal('Hey<br>\r\nThere!');
+	});
 });
