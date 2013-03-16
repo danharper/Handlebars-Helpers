@@ -91,6 +91,28 @@ describe('Is', function () {
 				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:9, bar:7}).should.equal('');
 			});
 		});
+
+		describe('the ===', function () {
+			it('passes when both arguments are the same', function(){
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('Y');
+			});
+
+			it('fails when both arguments are the same', function(){
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('');
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('');
+			});
+		});
+
+		describe('the !==', function () {
+			it('passes when both arguments are not the same', function(){
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('Y');
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
+			});
+
+			it('fails when both arguments are the same', function(){
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('');
+			});
+		});
 	});
 
 	// #is foo 				foo == true

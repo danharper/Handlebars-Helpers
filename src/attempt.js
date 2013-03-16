@@ -44,6 +44,12 @@
             },
             '<=': function(left, right) {
                 return left <= right;
+            },
+            '===': function(left, right) {
+                return left === right;
+            },
+            '!==': function(left, right) {
+                return left !== right;
             }
         };
 
