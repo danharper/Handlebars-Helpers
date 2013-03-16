@@ -55,6 +55,40 @@ describe('Is', function () {
 
 			it('fails when left is not greater than right', function(){
 				c('{{#is foo ">" bar}}Y{{/is}}', {foo:5, bar:7}).should.equal('');
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:2, bar:2}).should.equal('');
+			});
+		});
+
+		describe('the < operator', function () {
+			it('passes when left is less than right', function(){
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:2, bar:3}).should.equal('Y');
+			});
+
+			it('fails when left is not less than right', function(){
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:9, bar:7}).should.equal('');
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('');
+			});
+		});
+
+		describe('the >= operator', function () {
+			it('passes when left is greater than or equal to right', function(){
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:5, bar:2}).should.equal('Y');
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('Y');
+			});
+
+			it('fails when left is not greater than or equal to right', function(){
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:2, bar:7}).should.equal('');
+			});
+		});
+
+		describe('the <= operator', function () {
+			it('passes when left is less than or equal to right', function(){
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:2, bar:3}).should.equal('Y');
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('Y');
+			});
+
+			it('fails when left is not less than or equal to right', function(){
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:9, bar:7}).should.equal('');
 			});
 		});
 	});
