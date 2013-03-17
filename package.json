@@ -18,7 +18,7 @@
     "helpers"
   ],
   "author": "Dan Harper",
-  "license": "MIT",
+  "license": "WTFPL",
   "dependencies": {
     "handlebars": "1.0.10"
   },
