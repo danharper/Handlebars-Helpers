@@ -1,4 +1,4 @@
-require('../src/helpers');
+var HelpersRegistry = require('../src/helpers');
 
 var chai = require('chai')
 ,	sinon = require('sinon')
@@ -139,6 +139,13 @@ describe('#is', function () {
 						.should.equal('');
 				});
 			});
+		});
+	});
+
+	describe('Registering custom operator handlers', function () {
+		it('works', function () {
+			HelpersRegistry.add('omg', function() { return true; });
+			c('{{#is foo "omg" bar}}Y{{/is}}', {foo:5,bar:5}).should.equal('Y');
 		});
 	});
 });
