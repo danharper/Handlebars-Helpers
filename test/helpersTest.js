@@ -1,7 +1,9 @@
 require('../src/helpers');
 
 var chai = require('chai')
+,	sinon = require('sinon')
 ,	h = require('handlebars');
+
 chai.should();
 
 var c = function (template, data) {
@@ -9,144 +11,174 @@ var c = function (template, data) {
 	return h.compile(template)(data);
 };
 
-describe('Equals', function() {
-	var data = {
-		equal: { cat: 9, dog: '9' },
-		not_equal: { cat: 9, dog: '8' }
-	};
-
-	describe('#if_eq', function() {
-		var template = '{{#if_eq cat dog}}Yep{{else}}Nope{{/if_eq}}';
-
-		it('main', function() {
-			c(template, data.equal).should.equal('Yep');
+describe('#is', function () {
+	describe('with single argument', function () {
+		it('passes a single truthy value', function(){
+			c('{{#is foo}}Y{{/is}}', {foo:true}).should.equal('Y');
+			c('{{#is foo}}Y{{/is}}', {foo:'x'}).should.equal('Y');
 		});
-
-		it('else', function () {
-			c(template, data.not_equal).should.equal('Nope');
+		it('fails a single falsey value', function(){
+			c('{{#is foo}}Y{{/is}}', {foo:false}).should.equal('');
+			c('{{#is foo}}Y{{/is}}', {foo:''}).should.equal('');
 		});
 	});
 
-	describe('#unless_eq', function() {
-		var template = '{{#unless_eq cat dog}}Yep{{else}}Nope{{/unless_eq}}';
-
-		it('main', function() {
-			c(template, data.not_equal).should.equal('Yep');
+	describe('with two arguments', function () {
+		it('passes when both arguments match loosely', function(){
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('Y');
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('Y');
 		});
 
-		it('else', function () {
-			c(template, data.equal).should.equal('Nope');
-		});
-	});
-});
-
-describe('Strict Equals', function () {
-	var data = {
-		equal: { cat: 9, dog: 9 },
-		not_equal: { cat: 9, dog: '9' }
-	};
-
-	describe('#if_is', function() {
-		var template = '{{#if_is cat dog}}Yep{{else}}Nope{{/if_is}}';
-
-		it('main', function() {
-			c(template, data.equal).should.equal('Yep');
-		});
-
-		it('else', function () {
-			c(template, data.not_equal).should.equal('Nope');
+		it('fails when both arguments do not match', function(){
+			c('{{#is foo bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('');
 		});
 	});
 
-	describe('#unless_is', function() {
-		var template = '{{#unless_is cat dog}}Yep{{else}}Nope{{/unless_is}}';
-
-		it('main', function() {
-			c(template, data.not_equal).should.equal('Yep');
+	describe('with three arguments', function () {
+		it('throws an error when an operator does not exist', function () {
+			(function () { c('{{#is foo "/" bar}}Y{{/is}}', {foo:'x', bar:'y'}) })
+				.should.throw('Unknown operator "/"');
 		});
 
-		it('else', function () {
-			c(template, data.equal).should.equal('Nope');
-		});
-	});
-});
+		describe('the not operator', function () {
+			it('passes when the main arguments do not match', function(){
+				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
+			});
 
-describe('Greater Than', function () {
-	var data = {
-		gt: { cat: 9, dog: 6 },
-		not_gt: { cat: 9, dog: 11 },
-		equal: { cat: 9, dog: 9 }
-	};
-
-	describe('#if_gt', function () {
-		var template = '{{#if_gt cat dog}}Yep{{else}}Nope{{/if_gt}}';
-
-		it('main', function () {
-			c(template, data.gt).should.equal('Yep');
+			it('fails when the main arguments match', function(){
+				c('{{#is foo "not" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('');
+			});
 		});
 
-		it('else', function () {
-			c(template, data.not_gt).should.equal('Nope');
-			c(template, data.equal).should.equal('Nope');
-		});
-	});
+		describe('the > operator', function () {
+			it('passes when left is greater than right', function(){
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:5, bar:2}).should.equal('Y');
+			});
 
-	describe('#if_gte', function () {
-		var template = '{{#if_gte cat dog}}Yep{{else}}Nope{{/if_gte}}';
-
-		it('main', function () {
-			c(template, data.gt).should.equal('Yep');
-			c(template, data.equal).should.equal('Yep');
+			it('fails when left is not greater than right', function(){
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:5, bar:7}).should.equal('');
+				c('{{#is foo ">" bar}}Y{{/is}}', {foo:2, bar:2}).should.equal('');
+			});
 		});
 
-		it('else', function () {
-			c(template, data.not_gt).should.equal('Nope');
-		});
-	});
-});
+		describe('the < operator', function () {
+			it('passes when left is less than right', function(){
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:2, bar:3}).should.equal('Y');
+			});
 
-describe('Less Than', function () {
-	var data = {
-		lt: { cat: 6, dog: 9 },
-		not_lt: { cat: 11, dog: 9 },
-		equal: { cat: 9, dog: 9 }
-	};
-
-	describe('#if_lt', function () {
-		var template = '{{#if_lt cat dog}}Yep{{else}}Nope{{/if_lt}}';
-
-		it('main', function () {
-			c(template, data.lt).should.equal('Yep');
+			it('fails when left is not less than right', function(){
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:9, bar:7}).should.equal('');
+				c('{{#is foo "<" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('');
+			});
 		});
 
-		it('else', function () {
-			c(template, data.not_lt).should.equal('Nope');
-			c(template, data.equal).should.equal('Nope');
-		});
-	});
+		describe('the >= operator', function () {
+			it('passes when left is greater than or equal to right', function(){
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:5, bar:2}).should.equal('Y');
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('Y');
+			});
 
-	describe('#if_lte', function () {
-		var template = '{{#if_lte cat dog}}Yep{{else}}Nope{{/if_lte}}';
-
-		it('main', function () {
-			c(template, data.lt).should.equal('Yep');
-			c(template, data.equal).should.equal('Yep');
+			it('fails when left is not greater than or equal to right', function(){
+				c('{{#is foo ">=" bar}}Y{{/is}}', {foo:2, bar:7}).should.equal('');
+			});
 		});
 
-		it('else', function () {
-			c(template, data.not_lt).should.equal('Nope');
+		describe('the <= operator', function () {
+			it('passes when left is less than or equal to right', function(){
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:2, bar:3}).should.equal('Y');
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:9, bar:9}).should.equal('Y');
+			});
+
+			it('fails when left is not less than or equal to right', function(){
+				c('{{#is foo "<=" bar}}Y{{/is}}', {foo:9, bar:7}).should.equal('');
+			});
+		});
+
+		describe('the === operator', function () {
+			it('passes when both arguments are the same', function(){
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('Y');
+			});
+
+			it('fails when both arguments are the same', function(){
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('');
+				c('{{#is foo "===" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('');
+			});
+		});
+
+		describe('the !== operator', function () {
+			it('passes when both arguments are not the same', function(){
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'5'}).should.equal('Y');
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:'p'}).should.equal('Y');
+			});
+
+			it('fails when both arguments are the same', function(){
+				c('{{#is foo "!==" bar}}Y{{/is}}', {foo:5, bar:5}).should.equal('');
+			});
+		});
+
+		describe('the in operator', function () {
+			describe('with an array', function () {
+				it('passes when left arg is in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:['a','foo','b']})
+						.should.equal('Y');
+				});
+
+				it('fails when left arg is not in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:['a','b']})
+						.should.equal('');
+				});
+			});
+			describe('with a comma separated list', function () {
+				it('passes when left arg is in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:'a,b,foo,c'})
+						.should.equal('Y');
+				});
+
+				it('fails when left arg is not in right', function(){
+					c('{{#is foo "in" bar}}Y{{/is}}', {foo:'foo', bar:'a,b,c'})
+						.should.equal('');
+				});
+			});
 		});
 	});
 });
 
 describe('#nl2br', function () {
-	var template = '{{nl2br this}}';
-
 	it('Converts new lines to <br> tags', function () {
-		var text = 'Hey\r\nThere!';
-		c(template, text).should.equal('Hey<br>\r\nThere!');
+		c('{{nl2br this}}', 'Hey\r\nThere!').should.equal('Hey<br>\r\nThere!');
 	});
 });
 
+describe('Logging', function () {
+	beforeEach(function() {
+		this.consoleMock = sinon.mock(console);
+	});
 
+	afterEach(function() {
+		this.consoleMock.verify();
+	});
 
+	describe('#log', function () {
+		it('Logs to the console', function(){
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs(['Values:','foobar', 'lorem ipsum']);
+
+			c('{{log foo lorem}}', {foo:'foobar', lorem:'lorem ipsum'});
+		});
+	});
+
+	describe('#debug', function () {
+		it('Debugs to the console with current context', function(){
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs('Context:',{foo:'foobar', lorem:'lorem ipsum'});
+
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs(['Values:','foobar', 'lorem ipsum']);
+
+			c('{{debug foo lorem}}', {foo:'foobar', lorem:'lorem ipsum'});
+		});
+	});
+});
