@@ -1,0 +1,8 @@
+<script src="https://rawgithub.com/wycats/handlebars.js/1.0.0-rc.3/dist/handlebars.js"></script>
+<script src="../src/helpers.js"></script>
+
+<script>
+	document.writeln(Handlebars.compile('{{#is foo bar}}Defaults work.{{else}}:({{/is}}')({foo: false, bar: false}));
+	HandlebarsHelpersRegistry.add('foobar', function(l,r) { return false; });
+	document.writeln(Handlebars.compile('{{#is foo "foobar" bar}}:({{else}}And custom helpers work.{{/is}}')({foo: false, bar: false}));
+</script>
