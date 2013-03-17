@@ -10,19 +10,18 @@ To use, just include `helpers.js` after you include Handlebars. Or, if you're us
 
 ## Provided Helpers
 
-The old `if_eq`, `if_gt`, `unless_gte` etc. helpers are now replaced with a much clear `is` helper.
+The old `if_eq`, `if_gt`, `unless_gte` etc. helpers are now replaced with a much cleaner `is` helper.
 
 ### Comparisons
 
 Given one argument, `is` acts exactly like `if`:
 
-if x
 ```
 {{#is x}} ... {{else}} ... {{/is}}
+```
 
 Given two arguments, `is` compares the two are equal (a non-strict, `==` comparison, so `5 == '5'` is true)
 
-if x == y
 ```
 {{#is x y}} ... {{else}} ... {{/is}}
 ```
