@@ -4,47 +4,76 @@ A small collection of useful helpers for [Handlebars.js](https://github.com/wyca
 
 Released under the [WTFPL](http://sam.zoy.org/wtfpl/). Do whatever with it; if you make improvements it'd be _nice_ if you contributed them back but it's by no means required. Use in any project, commercial or otherwise. No warranty is provided.
 
-## Equals
+### Comparisons
 
-### If x Equals y
-`{{#if_eq x compare=y}} ... {{/if_eq}}`
+if x == y
+```
+{{#is x y}} ... {{/is}}
+```
 
-### Unless x Equals y
-`{{#unless_eq x compare=y}} ... {{/unless_eq}}`
+if x != y
+```
+{{#is x "not" y}} ... {{/is}}
+```
 
-## Greater Than
+### Strict Comparisons
 
-### If x > y
-`{{#if_gt x compare=y}} ... {{/if_gt}}`
+```
+{{#is x "===" y}} ... {{/is}}
+```
 
-### Unless x > y
-`{{#unless_gt x compare=y}} ... {{/unless_gt}}`
+```
+{{#is x "!==" y}} ... {{/is}}
+```
 
-## Greater Than or Equal To
+### Greater/Less Than
 
-### If x >= y
-`{{#if_gteq x compare=y}} ... {{/if_gteq}}`
+```
+{{#is x ">" y}} ... {{/is}}
+```
 
-### Unless x >= y
-`{{#unless_gteq x compare=y}} ... {{/unless_gteq}}`
+```
+{{#is x ">=" y}} ... {{/is}}
+```
 
-## Less Than
+```
+{{#is x "<" y}} ... {{/is}}
+```
 
-### If x < y
-`{{#if_lt x compare=y}} ... {{/if_lt}}`
+```
+{{#is x "<=" y}} ... {{/is}}
+```
 
-### Unless x < y
-`{{#unless_lt x compare=y}} ... {{/unless_lt}}`
+### "in"
 
-## Less Than or Equal To
+If `x` is in either the comma-separated list, or array:
 
-### If x <= y
-`{{#if_lteq x compare=y}} ... {{/if_lteq}}`
+```
+{{#is x "in" "foo,bar"}} ... {{/is}}
+```
 
-### Unless x <= y
-`{{#unless_lteq x compare=y}} ... {{/unless_lteq}}`
+```
+{{#is x "in" array}} ... {{/is}}
+```
 
-## nl2br
+### Logging
+
+Console log multiple values:
+
+```
+{{log foo bar}}
+```
+
+Console log multiple values, including the current context:
+
+```
+{{debug foo bar}}
+```
+
+### nl2br
+
 Convert new lines (`\r\n`, `\n\r`, `\r`, `\n`) to line breaks
 
-`{{nl2br description}}`
+```
+{{nl2br description}}
+```
