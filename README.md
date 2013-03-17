@@ -2,6 +2,8 @@
 
 A small collection of useful helpers for [Handlebars.js](https://github.com/wycats/handlebars.js).
 
+[![Build Status](https://travis-ci.org/danharper/Handlebars-Helpers.png?branch=develop)](https://travis-ci.org/danharper/Handlebars-Helpers)
+
 This version includes a (very) large API change. Use the version on the master branch if you'd prefer the "classic" style.
 
 Released under the [WTFPL](http://sam.zoy.org/wtfpl/). Do whatever with it; if you make improvements it'd be _nice_ if you contributed them back but it's by no means required. Use in any project, commercial or otherwise. No warranty is provided.
