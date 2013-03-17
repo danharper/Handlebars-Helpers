@@ -78,4 +78,17 @@
         return new Handlebars.SafeString(nl2br);
     });
 
+    Handlebars.registerHelper('log', function() {
+        console.log(['Values:'].concat(
+            Array.prototype.slice.call(arguments, 0, -1)
+        ));
+    });
+
+    Handlebars.registerHelper('debug', function() {
+        console.log('Context:', this);
+        console.log(['Values:'].concat(
+            Array.prototype.slice.call(arguments, 0, -1)
+        ));
+    });
+
 }));

@@ -1,6 +1,7 @@
 require('../src/attempt');
 
 var chai = require('chai')
+,	sinon = require('sinon')
 ,	h = require('handlebars');
 chai.should();
 
@@ -144,5 +145,39 @@ describe('#is', function () {
 describe('#nl2br', function () {
 	it('Converts new lines to <br> tags', function () {
 		c('{{nl2br this}}', 'Hey\r\nThere!').should.equal('Hey<br>\r\nThere!');
+	});
+});
+
+describe('Logging', function () {
+	beforeEach(function() {
+		this.consoleMock = sinon.mock(console);
+	});
+
+	afterEach(function() {
+		this.consoleMock.verify();
+	});
+
+	describe('#log', function () {
+		it('Logs to the console', function(){
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs(['Values:','foobar', 'lorem ipsum']);
+
+			c('{{log foo lorem}}', {foo:'foobar', lorem:'lorem ipsum'});
+		});
+	});
+
+	describe('#debug', function () {
+		it('Debugs to the console with current context', function(){
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs('Context:',{foo:'foobar', lorem:'lorem ipsum'});
+
+			this.consoleMock
+				.expects('log').once()
+				.withExactArgs(['Values:','foobar', 'lorem ipsum']);
+
+			c('{{debug foo lorem}}', {foo:'foobar', lorem:'lorem ipsum'});
+		});
 	});
 });
