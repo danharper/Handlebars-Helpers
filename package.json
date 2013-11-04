@@ -1,0 +1,30 @@
+{
+  "name": "HandlebarsHelpers",
+  "version": "1.1.0",
+  "description": "A small collection of useful helpers for Handlebars.js",
+  "main": "src/helpers.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/danharper/Handlebars-Helpers.git"
+  },
+  "keywords": [
+    "handlebars",
+    "helpers"
+  ],
+  "author": "Dan Harper",
+  "license": "WTFPL",
+  "dependencies": {
+    "handlebars": "1.0.10"
+  },
+  "devDependencies": {
+    "mocha": "1.8.2",
+    "chai": "1.5.0",
+    "sinon": "1.6.0"
+  }
+}

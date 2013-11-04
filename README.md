@@ -2,49 +2,108 @@
 
 A small collection of useful helpers for [Handlebars.js](https://github.com/wycats/handlebars.js).
 
-Released under the [WTFPL](http://sam.zoy.org/wtfpl/). Do whatever with it; if you make improvements it'd be _nice_ if you contributed them back but it's by no means required. Use in any project, commercial or otherwise. No warranty is provided.
+[![Build Status](https://travis-ci.org/danharper/Handlebars-Helpers.png?branch=develop)](https://travis-ci.org/danharper/Handlebars-Helpers)
 
-## Equals
+This version includes a (very) large API change. Use [version 1.0.0](https://github.com/danharper/Handlebars-Helpers/tree/v1.0.0) if you'd prefer the "classic" style.
 
-### If x Equals y
-`{{#if_eq x compare=y}} ... {{/if_eq}}`
+To use, just include `helpers.js` after you include Handlebars. Or, if you're using AMD/Node, just require the file.
 
-### Unless x Equals y
-`{{#unless_eq x compare=y}} ... {{/unless_eq}}`
+## Provided Helpers
 
-## Greater Than
+The old `if_eq`, `if_gt`, `unless_gte` etc. helpers are now replaced with a much cleaner `is` helper.
 
-### If x > y
-`{{#if_gt x compare=y}} ... {{/if_gt}}`
+### Comparisons
 
-### Unless x > y
-`{{#unless_gt x compare=y}} ... {{/unless_gt}}`
+Given one argument, `is` acts exactly like `if`:
 
-## Greater Than or Equal To
+```
+{{#is x}} ... {{else}} ... {{/is}}
+```
 
-### If x >= y
-`{{#if_gteq x compare=y}} ... {{/if_gteq}}`
+Given two arguments, `is` compares the two are equal (a non-strict, `==` comparison, so `5 == '5'` is true)
 
-### Unless x >= y
-`{{#unless_gteq x compare=y}} ... {{/unless_gteq}}`
+```
+{{#is x y}} ... {{else}} ... {{/is}}
+```
 
-## Less Than
+Given three arguments, the second argument becomes the comparator.
 
-### If x < y
-`{{#if_lt x compare=y}} ... {{/if_lt}}`
+```
+{{#is x "not" y}} ... {{else}} ... {{/is}}
+{{#is 5 ">=" 2}} ... {{else}} ... {{/is}}
+```
 
-### Unless x < y
-`{{#unless_lt x compare=y}} ... {{/unless_lt}}`
+Several comparators are built-in:
 
-## Less Than or Equal To
+* `==` (same as not providing a comparator)
+* `!=`
+* `not` (alias for `!=`)
+* `===`
+* `!==`
+* `>`
+* `>=`
+* `<`
+* `<=`
+* `in` (check a value exists in either a comma-separated string, or an array, see below)
 
-### If x <= y
-`{{#if_lteq x compare=y}} ... {{/if_lteq}}`
+```
+// Loose equality checking
+{{#is x y}} ... {{else}} ... {{/is}}
+{{#is x "==" y}} ... {{else}} ... {{/is}}
 
-### Unless x <= y
-`{{#unless_lteq x compare=y}} ... {{/unless_lteq}}`
+{{#is x "!=" y}} ... {{else}} ... {{/is}}
+{{#is x "not" y}} ... {{else}} ... {{/is}}
 
-## nl2br
+// Strict equality checking
+{{#is x "===" y}} ... {{else}} ... {{/is}}
+{{#is x "!==" y}} ... {{else}} ... {{/is}}
+
+// Greater/Less Than
+{{#is x ">" y}} ... {{else}} ... {{/is}}
+{{#is x ">=" y}} ... {{else}} ... {{/is}}
+
+{{#is x "<" y}} ... {{else}} ... {{/is}}
+{{#is x "<=" y}} ... {{else}} ... {{/is}}
+
+// In comma separated list, or array
+{{#is x "in" "foo,bar"}} ... {{else}} ... {{/is}}
+{{#is x "in" anArray}} ... {{else}} ... {{/is}}
+```
+
+#### Registering Custom `is` comparators
+You can extend the provided comparators by registering your own, like so:
+
+```js
+// in browser
+HandlebarsHelpersRegistry.add('same', function (left, right) { return left === right; });
+
+// with AMD/Node
+var HandlebarsHelpersRegistry = require('path/to/helpers');
+HandlebarsHelpersRegistry.add('same', function (left, right) { return left === right; });
+
+// usage
+var template = '{{#is x "same" y}} Are the same {{else}} Not the same {{/is}}';
+Handlebars.compile(template)({ x: 5, y: '5' }); // => " Not the same "
+```
+
+### Logging
+
+Log one or multiple values to the console:
+
+```
+{{log foo bar}}
+```
+
+Log one or multiple values to the console, _with the current context_:
+
+```
+{{debug foo bar}}
+```
+
+### nl2br
+
 Convert new lines (`\r\n`, `\n\r`, `\r`, `\n`) to line breaks
 
-`{{nl2br description}}`
+```
+{{nl2br description}}
+```
