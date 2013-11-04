@@ -4,7 +4,7 @@ A small collection of useful helpers for [Handlebars.js](https://github.com/wyca
 
 [![Build Status](https://travis-ci.org/danharper/Handlebars-Helpers.png?branch=develop)](https://travis-ci.org/danharper/Handlebars-Helpers)
 
-This version includes a (very) large API change. Use [version 1.0.0](https://github.com/danharper/Handlebars-Helpers/tree/v1.0.0) if you'd prefer the "classic" style.
+This version includes a (very) large API change. Use [version 1.1.0](https://github.com/danharper/Handlebars-Helpers/tree/v1.1.0) if you'd prefer the "classic" style.
 
 To use, just include `helpers.js` after you include Handlebars. Or, if you're using AMD/Node, just require the file.
 
