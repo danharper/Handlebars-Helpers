@@ -2,6 +2,7 @@ var HelpersRegistry = require('../src/helpers');
 
 var chai = require('chai')
 ,	sinon = require('sinon')
+,	moment = require('moment')
 ,	h = require('handlebars');
 
 chai.should();
@@ -189,3 +190,37 @@ describe('Logging', function () {
 		});
 	});
 });
+
+describe('#truncate', function() {
+	it('Truncates output to 20 chars', function() {
+		c('{{trunc text symbols}}', {text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elementum.",symbols:20}).should.equal("Lorem ipsum dolor si...")
+	});
+	it('Returns empty string', function() {
+		c('{{trunc }}').should.equal('')
+	});
+});
+
+describe('#short_date', function() {
+	it('Returns short date', function() {
+		c('{{short_date this}}', '2014-06-20 00:00:00').should.equal('20 Jun')
+	});
+	it('Returns empty string', function() {
+		c('{{short_date this}}', 'qazwsxedc').should.equal("")
+	});
+});
+
+describe('#long_date', function() {
+	it('Returns long date', function() {
+		c('{{long_date this}}', '2014-06-20 00:00:00').should.equal('20 Jun 2014')
+	});
+	it('Returns empty string', function() {
+		c('{{long_date this}}', 'qazwsxedc').should.equal("")
+	});
+});
+
+describe('#json', function() {
+	it('Returns stringified JSON', function() {
+		c('{{json this}}',{'foo':'bar'}).should.equal('{\n  &quot;foo&quot;: &quot;bar&quot;\n}')
+	});
+});
+

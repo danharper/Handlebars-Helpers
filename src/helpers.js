@@ -28,6 +28,8 @@
         return this.expressions[operator](left, right);
     };
 
+    var moment = require('moment');
+
     var eR = new ExpressionRegistry;
     eR.add('not', function(left, right) {
         return left != right;
@@ -103,6 +105,59 @@
             Array.prototype.slice.call(arguments, 0, -1)
         ));
     });
+
+    /**
+    * Hack for correct display JSON string
+    * {{json context}}
+    */
+    Handlebars.registerHelper('json', function(context) {
+         if(typeof context == 'object'){
+            return JSON.stringify(context, null, 2)
+         }else{
+            var json_obj =  JSON.parse(context);
+            return JSON.stringify(json_obj, null, 2)
+         };
+    }); 
+
+    /**
+    * truncate string to 20 symbols
+    * {{trunc "text"}}
+    */
+    Handlebars.registerHelper('trunc', function(text, symbols) {
+        if (text !=null && text.length >= symbols){
+            return text.substring(0,symbols) + "..."
+        }else{
+            return  false
+        };
+        return text
+    });
+
+    /**
+    * Return only day and month: 26 Nov
+    * {{short_date text}}
+    */
+    Handlebars.registerHelper('short_date', function(text) {
+        var m = new moment(text);
+        if(m.isValid()){
+            return m.format("DD MMM");
+        }else{
+            return false
+        }
+    }); 
+
+    /**
+    * Return day  month and year: 20 June 2014
+    * {{long_date text}}
+    */
+    Handlebars.registerHelper('long_date', function(text) {
+        var m = new moment(text);
+        if (m.isValid()){
+            return m.format("DD MMM YYYY");
+        }else{
+            return false
+        }
+
+    }); 
 
     return eR;
 
