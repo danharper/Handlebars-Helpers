@@ -123,9 +123,9 @@
     * truncate string to 20 symbols
     * {{trunc "text"}}
     */
-    Handlebars.registerHelper('trunc', function(text) {
-        if (text !=null && text.length >= 20){
-            return text.substring(0,20) + "..."
+    Handlebars.registerHelper('trunc', function(text, symbols) {
+        if (text !=null && text.length >= symbols){
+            return text.substring(0,symbols) + "..."
         }else{
             return  false
         };

@@ -193,7 +193,7 @@ describe('Logging', function () {
 
 describe('#truncate', function() {
 	it('Truncates output to 20 chars', function() {
-		c('{{trunc this}}', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elementum.").should.equal('Lorem ipsum dolor si...')
+		c('{{trunc text symbols}}', {text:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur elementum.",symbols:20}).should.equal("Lorem ipsum dolor si...")
 	});
 	it('Returns empty string', function() {
 		c('{{trunc }}').should.equal('')
