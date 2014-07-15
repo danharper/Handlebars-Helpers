@@ -1,8 +1,11 @@
 (function (root, factory) {
+    
     if (typeof exports === 'object') {
         module.exports = factory(require('handlebars'));
     } else if (typeof define === 'function' && define.amd) {
         define(['handlebars'], factory);
+    } else if (typeof Ember === 'object' && typeof Ember.Handlebars === 'object') {
+        root.HandlebarsHelpersRegistry = factory(Ember.Handlebars);
     } else {
         root.HandlebarsHelpersRegistry = factory(root.Handlebars);
     }
@@ -59,11 +62,11 @@
 
     var isHelper = function() {
         var args = arguments
-        ,   left = args[0]
-        ,   operator = args[1]
-        ,   right = args[2]
         ,   options = args[3]
-        ;
+        ,   left =  this.get(args[0].toString()) | args[0]
+        ,   operator = args[1]
+        ,   right = this.get(args[2].toString()) | args[2]
+        ;  
 
         if (args.length == 2) {
             options = args[1];
