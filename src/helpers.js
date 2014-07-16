@@ -63,9 +63,9 @@
     var isHelper = function() {
         var args = arguments
         ,   options = args[3]
-        ,   left =  this.get(args[0].toString()) | args[0]
+        ,   left =  this.get(args[0].toString()) || args[0]
         ,   operator = args[1]
-        ,   right = this.get(args[2].toString()) | args[2]
+        ,   right = this.get(args[2].toString()) || args[2]
         ;  
 
         if (args.length == 2) {
