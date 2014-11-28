@@ -67,21 +67,21 @@
 
         if (args.length == 2) {
             options = args[1];
-            if (left) return options.fn(this);
-            return options.inverse(this);
+            if (left) return options.fn ? options.fn(this) : false;
+            return options.inverse ? options.inverse(this) : false;
         }
 
         if (args.length == 3) {
             right = args[1];
             options = args[2];
-            if (left == right) return options.fn(this);
-            return options.inverse(this);
+            if (left == right) return options.fn ? options.fn(this) : false;
+            return options.inverse ? options.inverse(this) : false;
         }
 
         if (eR.call(operator, left, right)) {
-            return options.fn(this);
+            return options.fn ? options.fn(this) : false;
         }
-        return options.inverse(this);
+        return options.inverse ? options.inverse(this) : false;
     };
 
     Handlebars.registerHelper('is', isHelper);
