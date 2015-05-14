@@ -10,7 +10,7 @@
 
     var isArray = function(value) {
         return Object.prototype.toString.call(value) === '[object Array]';
-    }
+    };
 
     var ExpressionRegistry = function() {
         this.expressions = [];
@@ -28,7 +28,7 @@
         return this.expressions[operator](left, right);
     };
 
-    var eR = new ExpressionRegistry;
+    var eR = new ExpressionRegistry();
     eR.add('not', function(left, right) {
         return left != right;
     });
@@ -64,12 +64,11 @@
     });
 
     var isHelper = function() {
-        var args = arguments
-        ,   left = args[0]
-        ,   operator = args[1]
-        ,   right = args[2]
-        ,   options = args[3]
-        ;
+        var args = arguments,
+            left = args[0],
+            operator = args[1],
+            right = args[2],
+            options = args[3];
 
         if (args.length == 2) {
             options = args[1];
@@ -91,15 +90,13 @@
     };
 
     var areHelper = function() {
-        var args = arguments
-        , args = arguments
-        , nbArgs = args.length - 1
-        , options = args[args.length - 1]
-        , operators = []
-        , expResult = []
-        ;
+        var args = arguments,
+        nbArgs = args.length - 1,
+        options = args[args.length - 1],
+        operators = [],
+        expResult = [];
 
-        if (nbArgs % 2 == 0 || parseInt(nbArgs % 3) + 1 != parseInt(nbArgs / 3)) {
+        if (nbArgs % 2 === 0 || parseInt(nbArgs % 3) + 1 !== parseInt(nbArgs / 3)) {
             throw new Error('Invalid number of arguments');
         }
 
@@ -111,7 +108,7 @@
             }
         }
 
-        for (var i = 0; i < operators.length; ++i) {
+        for (i = 0; i < operators.length; ++i) {
             var j = i - 1 < 0 ? 0 : i;
             expResult[j + 1] = eR.call(operators[i], expResult[j], expResult[j + 1]);
         }
@@ -120,7 +117,7 @@
             return options.fn(this);
         }
         return options.inverse(this);
-    }
+    };
 
     Handlebars.registerHelper('is', isHelper);
     Handlebars.registerHelper('are', areHelper);
