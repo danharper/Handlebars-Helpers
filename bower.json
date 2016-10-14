@@ -1,0 +1,21 @@
+{
+  "name": "HandlebarsHelpers",
+  "description": "A small collection of useful helpers for Handlebars.js",
+  "main": "src/helpers.js",
+  "authors": [
+    "Dan Harper"
+  ],
+  "license": "WTFPL",
+  "keywords": [
+    "handlebars",
+    "helpers"
+  ],
+  "homepage": "https://github.com/ekkis/Handlebars-Helpers",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
