@@ -10,7 +10,7 @@
 
     var isArray = function(value) {
         return Object.prototype.toString.call(value) === '[object Array]';
-    }
+    };
 
     var ExpressionRegistry = function() {
         this.expressions = [];
@@ -92,16 +92,20 @@
     });
 
     Handlebars.registerHelper('log', function() {
-        console.log(['Values:'].concat(
-            Array.prototype.slice.call(arguments, 0, -1)
-        ));
+        if (typeof console !== 'undefined' && console.log) {
+	        console.log(['Values:'].concat(
+    	        Array.prototype.slice.call(arguments, 0, -1)
+        	));
+        }
     });
 
     Handlebars.registerHelper('debug', function() {
-        console.log('Context:', this);
-        console.log(['Values:'].concat(
-            Array.prototype.slice.call(arguments, 0, -1)
-        ));
+        if (typeof console !== 'undefined' && console.log) {
+	        console.log('Context:', this);
+   	    	console.log(['Values:'].concat(
+            	Array.prototype.slice.call(arguments, 0, -1)
+	        ));
+	    }
     });
 
     return eR;
