@@ -10,7 +10,7 @@
 
     var isArray = function(value) {
         return Object.prototype.toString.call(value) === '[object Array]';
-    }
+    };
 
     var ExpressionRegistry = function() {
         this.expressions = [];
@@ -28,7 +28,7 @@
         return this.expressions[operator](left, right);
     };
 
-    var eR = new ExpressionRegistry;
+    var eR = new ExpressionRegistry();
     eR.add('not', function(left, right) {
         return left != right;
     });
@@ -59,10 +59,10 @@
 
     var isHelper = function() {
         var args = arguments
-        ,   left = args[0]
-        ,   operator = args[1]
-        ,   right = args[2]
-        ,   options = args[3]
+            left = args[0],
+            operator = args[1],
+            right = args[2],
+            options = args[3]
         ;
 
         if (args.length == 2) {
@@ -104,6 +104,18 @@
         ));
     });
 
+    //  format an ISO date using Moment.js
+    //  http://momentjs.com/
+    //  usage: {{dateFormat creation_date format="MMMM YYYY"}}
+    Handlebars.registerHelper("formatDate", function(context, block) {
+      if (window.moment && context && moment(context).isValid()) {
+          var f = block.hash.format || "MMM Mo, YYYY";
+          return moment(Date(context)).format(f);
+      } else {
+          return context;   //  moment plugin not available. return data as is.
+      }
+    });
+    
     return eR;
 
 }));
