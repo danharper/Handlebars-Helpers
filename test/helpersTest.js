@@ -36,7 +36,7 @@ describe('#is', function () {
 
 	describe('with three arguments', function () {
 		it('throws an error when an operator does not exist', function () {
-			(function () { c('{{#is foo "/" bar}}Y{{/is}}', {foo:'x', bar:'y'}) })
+			(function () { c('{{#is foo "/" bar}}Y{{/is}}', {foo:'x', bar:'y'}); })
 				.should.throw('Unknown operator "/"');
 		});
 
@@ -146,6 +146,35 @@ describe('#is', function () {
 		it('works', function () {
 			HelpersRegistry.add('omg', function() { return true; });
 			c('{{#is foo "omg" bar}}Y{{/is}}', {foo:5,bar:5}).should.equal('Y');
+		});
+	});
+});
+
+describe('#are', function() {
+	describe('With seven arguments', function() {
+		it('throws an error when an operator does not exist', function () {
+			(function () { c('{{#are foo ">=" bar "foobar" bar "!==" 10}}Y{{/are}}', {foo:5, bar:10}); })
+				.should.throw('Unknown operator "foobar"');
+		});
+
+		describe('the and operator', function () {
+			it('passes when left and right are true', function(){
+				c('{{#are foo "not" bar "and" foo "===" "f"}}Y{{/are}}', {foo:'f', bar:'b'}).should.equal('Y');
+			});
+
+			it('fails when left is true and right is false', function(){
+				c('{{#are foo "not" bar "and" foo "!==" 5}}Y{{/are}}', {foo:5, bar:'b'}).should.equal('');
+			});
+		});
+
+		describe('the or operator', function () {
+			it('passes when left is true and right is false', function(){
+				c('{{#are foo "not" bar "or" foo "!==" "a"}}Y{{/are}}', {foo:'f', bar:'b'}).should.equal('Y');
+			});
+
+			it('fails when left is false and right is false', function(){
+				c('{{#are foo "===" bar "or" foo "===" 10}}Y{{/are}}', {foo:5, bar:'b'}).should.equal('');
+			});
 		});
 	});
 });

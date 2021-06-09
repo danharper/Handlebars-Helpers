@@ -2,7 +2,8 @@
 <script src="../src/helpers.js"></script>
 
 <script>
-	document.writeln(Handlebars.compile('{{#is foo bar}}Defaults work.{{else}}:({{/is}}')({foo: false, bar: false}));
+	document.writeln(Handlebars.compile('{{#is foo bar}}Is helpers work.{{else}}:({{/is}}')({foo: false, bar: false}));
+	document.writeln(Handlebars.compile('{{#are foo "<" bar "or" foo ">" foo2 "and" foo "<" bar}}Are helpers work.{{else}}:({{/are}}')({foo: 5, bar: 10, foo2: 15}));
 	HandlebarsHelpersRegistry.add('foobar', function(l,r) { return false; });
 	document.writeln(Handlebars.compile('{{#is foo "foobar" bar}}:({{else}}And custom helpers work.{{/is}}')({foo: false, bar: false}));
 </script>

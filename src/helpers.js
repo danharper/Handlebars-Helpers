@@ -10,7 +10,7 @@
 
     var isArray = function(value) {
         return Object.prototype.toString.call(value) === '[object Array]';
-    }
+    };
 
     var ExpressionRegistry = function() {
         this.expressions = [];
@@ -28,7 +28,7 @@
         return this.expressions[operator](left, right);
     };
 
-    var eR = new ExpressionRegistry;
+    var eR = new ExpressionRegistry();
     eR.add('not', function(left, right) {
         return left != right;
     });
@@ -56,14 +56,19 @@
         }
         return right.indexOf(left) !== -1;
     });
+    eR.add('and', function(left, right) {
+        return left && right;
+    });
+    eR.add('or', function(left, right) {
+        return left || right;
+    });
 
     var isHelper = function() {
-        var args = arguments
-        ,   left = args[0]
-        ,   operator = args[1]
-        ,   right = args[2]
-        ,   options = args[3]
-        ;
+        var args = arguments,
+            left = args[0],
+            operator = args[1],
+            right = args[2],
+            options = args[3];
 
         if (args.length == 2) {
             options = args[1];
@@ -84,7 +89,38 @@
         return options.inverse(this);
     };
 
+    var areHelper = function() {
+        var args = arguments,
+        nbArgs = args.length - 1,
+        options = args[args.length - 1],
+        operators = [],
+        expResult = [];
+
+        if (nbArgs % 2 === 0 || parseInt(nbArgs % 3) + 1 !== parseInt(nbArgs / 3)) {
+            throw new Error('Invalid number of arguments');
+        }
+
+        for (var i = 0; i < nbArgs; i += 3) {
+            expResult.push(eR.call(args[i + 1], args[i], args[i + 2]));
+            if (i + 3 < nbArgs) {
+                operators.push(args[i + 3]);
+                ++i;
+            }
+        }
+
+        for (i = 0; i < operators.length; ++i) {
+            var j = i - 1 < 0 ? 0 : i;
+            expResult[j + 1] = eR.call(operators[i], expResult[j], expResult[j + 1]);
+        }
+
+        if (expResult[expResult.length - 1]) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
+    };
+
     Handlebars.registerHelper('is', isHelper);
+    Handlebars.registerHelper('are', areHelper);
 
     Handlebars.registerHelper('nl2br', function(text) {
         var nl2br = (text + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2');

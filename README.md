@@ -86,6 +86,18 @@ var template = '{{#is x "same" y}} Are the same {{else}} Not the same {{/is}}';
 Handlebars.compile(template)({ x: 5, y: '5' }); // => " Not the same "
 ```
 
+### More complex comparisons
+
+You can also compare more than two variables by using `are`:
+```
+{{#are x ">" y "and" x "not" z}} ... {{else}} ... {{/are}}
+{{#are x "===" y "or" x ">=" z}} ... {{else}} ... {{/are}}
+```
+
+`are` add two more comparators:
+* `and`
+* `or`
+
 ### Logging
 
 Log one or multiple values to the console:
