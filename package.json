@@ -23,7 +23,7 @@
     "handlebars": "1.0.10"
   },
   "devDependencies": {
-    "mocha": "1.8.2",
+    "mocha": "9.0.0",
     "chai": "1.5.0",
     "sinon": "1.6.0"
   }
